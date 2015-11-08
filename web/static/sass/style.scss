@@ -1,10 +1,10 @@
+@import 'editor';
+
 body {
     font-family: 'Raleway', sans-serif;
 
     .jl-container {
-        margin: 0 auto 0 auto;
-        padding: 50px 0 50px 0;
-        width: 900px;
+        padding: 50px;
 
         .jl-header {
             margin-bottom: 128px;
@@ -17,7 +17,13 @@ body {
         .jl-content, .ql-container {
             font-family: 'Raleway', sans-serif;
             font-size: 24px;
+            margin: 0 auto 0 auto;
             padding: 0;
+            width: 900px;
+
+            .jl-editor {
+                outline: 0px solid transparent;
+            }
         }
     }
 }
