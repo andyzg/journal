@@ -2,3 +2,4 @@ web/static/build
 node_modules/
 *.py[co]
 .sass-cache
+rethinkdb_data/
