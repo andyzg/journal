@@ -1,3 +1,5 @@
+'use strict';
+
 var JournalContainer = React.createClass({
     render: function() {
         return (
@@ -77,7 +79,4 @@ var Editor = React.createClass({
 
 });
 
-ReactDOM.render(
-  <JournalContainer />,
-  document.getElementById('content')
-);
+module.exports = JournalContainer;
