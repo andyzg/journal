@@ -61,28 +61,11 @@ var Editor = React.createClass({
         };
     },
 
-    componentDidMount: function() {
-        // var editor = new Quill('.jl-editor');
-        // this._setupModule(editor);
-        var editor = new MediumEditor('#' + this.props.editorId, {
-            toolbar: false,
-            // Disables having 2 empty lines
-            disableDoubleReturn: false,
-            // Enable image dragging
-            imageDragging: true,
-            // Disables any keyboard shortcuts
-            keyboardCommands: false,
-            placeholder: this._PLACEHOLDER,
-            // Disables the toolbar
-        });
-        this.setState({
-            editor: editor
-        }, this._setupModule);
-    },
-
     render: function() {
         return (
-            <div id={this.props.editorId} className='jl-editor' data-disable-toolbar="true">
+            <div id={this.props.editorId} 
+                 className='jl-editor' 
+                 contentEditable="true">
                 {this.props.text}
             </div>
         );
