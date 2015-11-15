@@ -40,6 +40,7 @@ var Content = React.createClass({
             entries.push(
                 <Editor editorId={'editor-' + i} 
                         text={this.state.entries[i].text} 
+                        isLocked={this.state.entries[i].isLocked}
                         key={i} />
             );
         }
@@ -64,10 +65,14 @@ var Editor = React.createClass({
     },
 
     render: function() {
+        var contentEditable = true;
+        if (this.props.isLocked) {
+            contentEditable = false;
+        }
         return (
             <div id={this.props.editorId} 
                  className='jl-editor' 
-                 contentEditable="true">
+                 contentEditable={contentEditable}>
                 {this.props.text}
             </div>
         );

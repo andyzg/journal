@@ -17,25 +17,35 @@ def entry():
     # from the database.
     data = {
         'entries': [{
-            'text': 'Hello World'
+            'text': 'Hello World',
+            'isLocked': True
         }, {
-            'text': 'Hello World'
+            'text': 'Hello World',
+            'isLocked': True
         }, {
-            'text': 'Hello World'
+            'text': 'Hello World',
+            'isLocked': True
         }, {
-            'text': 'Hello World'
+            'text': 'Hello World',
+            'isLocked': True
         }, {
-            'text': 'Hello World'
+            'text': 'Hello World',
+            'isLocked': True
         }, {
-            'text': 'Hello World'
+            'text': 'Hello World',
+            'isLocked': True
         }, {
-            'text': 'Hello World'
+            'text': 'Hello World',
+            'isLocked': True
         }, {
-            'text': 'Hello World'
+            'text': 'Hello World',
+            'isLocked': True
         }, {
-            'text': 'Hello World'
+            'text': 'Hello World',
+            'isLocked': True
         }, {
-            'text': 'Hello World'
+            'text': 'Hello World',
+            'isLocked': False
         }]
     }
     if request.method == POST:
