@@ -30,6 +30,7 @@ var Content = React.createClass({
 
     componentDidMount: function() {
         $.get('/api/entry', function(data) {
+            // TODO: Create object models for entries
             this.setState({entries: data.entries});
         }.bind(this));
     },
@@ -39,7 +40,7 @@ var Content = React.createClass({
         for (var i = 0; i < this.state.entries.length; i++) {
             entries.push(
                 <Editor editorId={'editor-' + i} 
-                        text={this.state.entries[i].text} 
+                        text={this.state.entries[i].content} 
                         isLocked={this.state.entries[i].isLocked}
                         key={i} />
             );

@@ -16,20 +16,15 @@ print 'Starting api.py script.'
 
 @jl_app.route(API_BASE + '/entry', methods=['GET', 'POST'])
 def entry():
-    data = {
-        'entries': [{
-            'text': 'Hello World',
-            'isLocked': True
-        }, {
-            'text': 'Hello World',
-            'isLocked': False
-        }]
-    }
-
+    user_id = 'andyzg'
     if request.method == POST:
-        user_id = 'andyzg'
         text = 'Hello world!'
         model = EntryModel(user_id, text)
         return flask.jsonify(**EntryDB.post_entry(model))
-    else:
-        pass
+
+    elif request.method == GET:
+        entries = list(EntryDB.get_entries(user_id))
+        print entries
+        return flask.jsonify({
+            'entries': entries
+        })
