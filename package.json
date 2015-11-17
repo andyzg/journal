@@ -8,7 +8,8 @@
     "core-js": "^1.2.6",
     "react": "^0.14.2",
     "react-quill": "^0.2.2",
-    "to-fast-properties": "^1.0.1"
+    "to-fast-properties": "^1.0.1",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "babel": "5.8.23",

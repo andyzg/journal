@@ -1,7 +1,8 @@
 @import 'editor';
+@import 'variables';
 
 body {
-    font-family: 'Raleway', sans-serif;
+    font-family: $primary-font-family;
 
     .jl-container {
         padding: 50px;
@@ -20,10 +21,6 @@ body {
             margin: 0 auto 0 auto;
             padding: 0;
             width: 900px;
-
-            .jl-editor {
-                outline: 0px solid transparent;
-            }
         }
     }
 }

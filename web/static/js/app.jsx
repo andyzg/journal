@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'underscore';
+
 var JournalContainer = React.createClass({
     render: function() {
         return (
@@ -39,12 +41,15 @@ var Content = React.createClass({
         var entries = [];
         for (var i = 0; i < this.state.entries.length; i++) {
             entries.push(
-                <Editor editorId={'editor-' + i} 
-                        text={this.state.entries[i].content} 
+                <Editor text={this.state.entries[i].content} 
                         isLocked={this.state.entries[i].isLocked}
                         key={i} />
             );
         }
+
+        entries.push(
+            <Editor isLocked={false} key={-1} />
+        );
         return (
             <div className='jl-content'>
                 {entries}
@@ -55,9 +60,7 @@ var Content = React.createClass({
 
 var Editor = React.createClass({
 
-    _PLACEHOLDER: {
-        text: 'How was your day?'
-    },
+    _PLACEHOLDER: 'How was your day?',
 
     getInitialState: function() {
         return {
@@ -70,10 +73,16 @@ var Editor = React.createClass({
         if (this.props.isLocked) {
             contentEditable = false;
         }
+
+        var classesList = [];
+        if (!contentEditable) {
+            classesList.push('jl-locked');
+        }
+        var classes = Array.prototype.join.call(classesList, ' ');
         return (
-            <div id={this.props.editorId} 
-                 className='jl-editor' 
-                 contentEditable={contentEditable}>
+            <div className={'jl-editor ' + classes}
+                 contentEditable={contentEditable}
+                 data-ph={this._PLACEHOLDER}>
                 {this.props.text}
             </div>
         );
