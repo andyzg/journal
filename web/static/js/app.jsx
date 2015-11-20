@@ -2,6 +2,7 @@
 
 import _ from 'underscore';
 
+const API_ENTRY = '/api/entry'
 const ENTER_KEY = 13;
 
 let JournalContainer = React.createClass({
@@ -38,17 +39,24 @@ let Footer = React.createClass({
 let Content = React.createClass({
     getInitialState() {
         return {
-            entries: []
+            entries: [],
+            submittedEntries: []
         };
     },
 
     componentDidMount() {
-        $.get('/api/entry', data => {
-            // TODO: Create object models for entries
-            this.setState({entries: data.entries}, () => {
-                this.props.onRender();
+        if (this.state.entries.length <= 0) {
+            $.get(API_ENTRY, data => {
+                // TODO: Create object models for entries
+                this.setState({entries: data.entries}, () => {
+                    this.props.onRender();
+                });
             });
-        });
+        } 
+    },
+
+    componentDidUpdate() {
+        this.props.onRender();
     },
 
     render() {
@@ -61,14 +69,28 @@ let Content = React.createClass({
             );
         }
 
+        for (var i = 0; i < this.state.submittedEntries.length; i++) {
+            entries.push(
+                <Editor text={this.state.submittedEntries[i]} 
+                    isLocked={true}
+                    key={i + this.state.entries.length} />
+            );
+        }
+
         entries.push(
-            <Editor isLocked={false} key={-1} />
+            <Editor isLocked={false} key={-1} onSubmit={this._onSubmit} />
         );
         return (
             <div className='jl-content'>
                 {entries}
             </div>
         );
+    },
+
+    _onSubmit(content) {
+        this.setState({
+            submittedEntries: this.state.submittedEntries.concat([content])
+        });
     }
 });
 
@@ -82,7 +104,7 @@ let Editor = React.createClass({
         return {
             // TODO: I shouldn't have to be making such a complicated check.
             contentEditable: !(this.props.isLocked.toString().toLowerCase() === 'true'),
-            editor: null,
+            content: '',
         };
     },
 
@@ -110,7 +132,7 @@ let Editor = React.createClass({
             <div className={'jl-editor ' + classes}
                  contentEditable={contentEditable}
                  data-ph={this._PLACEHOLDER}>
-                {this.props.text}
+                {contentEditable ? '' : this.props.text}
             </div>
         );
     },
@@ -120,8 +142,12 @@ let Editor = React.createClass({
         if (!content) {
             return;
         }
-        alert(content);
-        this.setState({ contentEditable: false });
+        $.post(API_ENTRY, {
+            content: content
+        }, () => {
+            $(this._EDITABLE_SELECTOR).empty();
+            this.props.onSubmit(content);
+        });
     }
 
 });
