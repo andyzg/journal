@@ -1,6 +1,9 @@
 'use strict';
 
 import _ from 'underscore';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 const API_ENTRY = '/api/entry'
 const ENTER_KEY = 13;
@@ -47,8 +50,11 @@ let Content = React.createClass({
     componentDidMount() {
         if (this.state.entries.length <= 0) {
             $.get(API_ENTRY, data => {
+                var entries = _.sortBy(data.entries, (d) => {
+                    return d.timestamp;
+                });
                 // TODO: Create object models for entries
-                this.setState({entries: data.entries}, () => {
+                this.setState({entries: entries}, () => {
                     this.props.onRender();
                 });
             });
@@ -77,19 +83,25 @@ let Content = React.createClass({
             );
         }
 
-        entries.push(
-            <Editor isLocked={false} key={-1} onSubmit={this._onSubmit} />
-        );
         return (
             <div className='jl-content'>
-                {entries}
+                <ReactCSSTransitionGroup transitionName='jl-entry-post'
+                                         transitionAppear={false}
+                                         transitionEnterTimeout={200} 
+                                         transitionLeaveTimeout={1000}
+                                         transitionAppearTimeout={0}>
+                    {entries}
+                </ReactCSSTransitionGroup>
+                <Editor isLocked={false} onSubmit={this._onSubmit} />
             </div>
         );
     },
 
     _onSubmit(content) {
-        this.setState({
-            submittedEntries: this.state.submittedEntries.concat([content])
+        setTimeout(() => {
+            this.setState({
+                submittedEntries: this.state.submittedEntries.concat([content])
+            });
         });
     }
 });

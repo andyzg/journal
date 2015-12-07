@@ -1,8 +1,19 @@
 @import 'variables';
 
+$padding: 25px;
+
 .jl-editor {
+    height: auto;
+    margin-bottom: 5px;
     outline: 0px solid transparent;
-    margin-bottom: 25px;
+    padding: $padding;
+    width: 100%;
+    word-wrap: break-word;
+    -webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -ms-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+    transition: all .2s ease-out
 }
 
 .jl-editor[contentEditable=true]:empty:not(:focus):before {
@@ -10,10 +21,35 @@
 }
 
 .jl-editor[contentEditable=true] {
-    height: 300px;
+    background-color: #FFF;
+    border: 1px solid rgba(0, 0, 0, .1);
+    height: auto;
     margin-top: 50px;
+    min-height: 100px;
+}
+
+.jl-editor[contentEditable=true]:focus {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
 }
 
 .jl-locked {
     color: $ink-font;
+}
+
+.jl-locked:hover {
+    color: $dark-font-primary;
+}
+
+.jl-entry-post-enter {
+  opacity: 0.05;
+}
+
+.jl-entry-post.jl-entry-post-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+
+.jl-next-entry {
+    height: 0;
 }

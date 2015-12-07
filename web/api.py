@@ -18,7 +18,6 @@ print 'Starting api.py script.'
 def entry():
     user_id = 'andyzg'
     if request.method == POST:
-        print "DATA", request.form['content']
         model = EntryModel(user_id, request.form['content'])
         return flask.jsonify(**EntryDB.post_entry(model))
 

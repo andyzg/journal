@@ -1,7 +1,9 @@
 @import 'editor';
 @import 'variables';
+// @import 'lib/pure.css';
 
 body {
+    background-color: #FAFAFA;
     font-family: $primary-font-family;
 
     .jl-container {
@@ -16,15 +18,15 @@ body {
         }
 
         .jl-content {
-            font-family: 'Raleway', sans-serif;
-            font-size: 24px;
+            font-family: $primary-font-family;
+            font-size: 16px;
             margin: 0 auto 0 auto;
             padding: 0;
             width: 900px;
         }
 
         .jl-footer {
-            height: 200px
+            height: 0px 
         }
     }
 }
