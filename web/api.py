@@ -23,7 +23,6 @@ def entry():
 
     elif request.method == GET:
         entries = list(EntryDB.get_entries(user_id))
-        print entries
         return flask.jsonify({
             'entries': entries
         })

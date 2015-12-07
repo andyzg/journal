@@ -5,6 +5,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
+import { formatTimestamp } from './util';
+
 const API_ENTRY = '/api/entry'
 const ENTER_KEY = 13;
 
@@ -70,6 +72,7 @@ let Content = React.createClass({
         for (var i = 0; i < this.state.entries.length; i++) {
             entries.push(
                 <Editor text={this.state.entries[i].content} 
+                        timestamp={this.state.entries[i].timestamp}
                         isLocked={this.state.entries[i].isLocked}
                         key={i} />
             );
@@ -77,9 +80,10 @@ let Content = React.createClass({
 
         for (var i = 0; i < this.state.submittedEntries.length; i++) {
             entries.push(
-                <Editor text={this.state.submittedEntries[i]} 
-                    isLocked={true}
-                    key={i + this.state.entries.length} />
+                <Editor text={this.state.submittedEntries[i].text}
+                        timestamp={this.state.submittedEntries[i].timestamp}
+                        isLocked={true}
+                        key={i + this.state.entries.length} />
             );
         }
 
@@ -87,7 +91,7 @@ let Content = React.createClass({
             <div className='jl-content'>
                 <ReactCSSTransitionGroup transitionName='jl-entry-post'
                                          transitionAppear={false}
-                                         transitionEnterTimeout={200} 
+                                         transitionEnterTimeout={1} 
                                          transitionLeaveTimeout={1000}
                                          transitionAppearTimeout={0}>
                     {entries}
@@ -98,10 +102,8 @@ let Content = React.createClass({
     },
 
     _onSubmit(content) {
-        setTimeout(() => {
-            this.setState({
-                submittedEntries: this.state.submittedEntries.concat([content])
-            });
+        this.setState({
+            submittedEntries: this.state.submittedEntries.concat([content])
         });
     }
 });
@@ -139,15 +141,42 @@ let Editor = React.createClass({
         if (!contentEditable) {
             classesList.push('jl-locked');
         }
+
+        let entryFooter = null;
+        if (!contentEditable) {
+            let formattedTimestamp = formatTimestamp(this.props.timestamp);
+            let active = this.state.hover ? 'jl-entry-footer-active' : '';
+            entryFooter = <div className={'jl-entry-footer ' + active}>
+                {formattedTimestamp}
+            </div>;
+        }
         let classes = Array.prototype.join.call(classesList, ' ');
         return (
             <div className={'jl-editor ' + classes}
+                 onMouseOver={this._onMouseOver}
+                 onMouseLeave={this._onMouseLeave}
                  contentEditable={contentEditable}
                  data-ph={this._PLACEHOLDER}>
                 {contentEditable ? '' : this.props.text}
+                {entryFooter}
             </div>
         );
     },
+
+    _onMouseOver() {
+        if (this.state.contentEditable) {
+            return;
+        }
+        this.setState({hover: true});
+    },
+
+    _onMouseLeave() {
+        if (this.state.contentEditable) {
+            return;
+        }
+        this.setState({hover: false});
+    },
+
 
     _postEntry(e, content) {
         e.preventDefault();
@@ -158,7 +187,10 @@ let Editor = React.createClass({
             content: content
         }, () => {
             $(this._EDITABLE_SELECTOR).empty();
-            this.props.onSubmit(content);
+            this.props.onSubmit({
+                text: content,
+                timestamp: Date.now() / 1000
+            });
         });
     }
 

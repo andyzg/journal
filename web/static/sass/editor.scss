@@ -1,19 +1,21 @@
 @import 'variables';
+@import 'mixins';
 
-$padding: 25px;
+$padding: 20px;
+$entry-footer-height: 16px;
+$trans-time: .2s;
 
 .jl-editor {
     height: auto;
     margin-bottom: 5px;
     outline: 0px solid transparent;
     padding: $padding;
+    padding-bottom: $padding - $entry-footer-height;
+    position: relative;
+    top: 0px;
     width: 100%;
     word-wrap: break-word;
-    -webkit-transition: all .2s ease-out;
-    -moz-transition: all .2s ease-out;
-    -ms-transition: all .2s ease-out;
-    -o-transition: all .2s ease-out;
-    transition: all .2s ease-out
+    @include transition(color $trans-time ease-out, box-shadow $trans-time ease-out, opacity $trans-time ease-out, top $trans-time ease-out);
 }
 
 .jl-editor[contentEditable=true]:empty:not(:focus):before {
@@ -38,18 +40,29 @@ $padding: 25px;
 
 .jl-locked:hover {
     color: $dark-font-primary;
+    padding-bottom: $padding - $entry-footer-height;
 }
 
+// Transition styling
 .jl-entry-post-enter {
   opacity: 0.05;
+  top: 5px;
 }
 
 .jl-entry-post.jl-entry-post-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
+  @include transition(opacity $trans-time ease-in, top $trans-time ease-out);
 }
 
+// Entry footer styling
+.jl-entry-footer {
+    color: $dark-font-secondary;
+    font-size: 12px;
+    height: $entry-footer-height;
+    opacity: 0;
+    @include transition(opacity $trans-time ease-out);
+}
 
-.jl-next-entry {
-    height: 0;
+.jl-entry-footer-active {
+    font-size: 12px;
+    opacity: 1;
 }
