@@ -71,7 +71,7 @@ let Content = React.createClass({
         let entries = [];
         for (var i = 0; i < this.state.entries.length; i++) {
             entries.push(
-                <Editor text={this.state.entries[i].content} 
+                <Entry text={this.state.entries[i].content} 
                         timestamp={this.state.entries[i].timestamp}
                         isLocked={this.state.entries[i].isLocked}
                         key={i} />
@@ -80,7 +80,7 @@ let Content = React.createClass({
 
         for (var i = 0; i < this.state.submittedEntries.length; i++) {
             entries.push(
-                <Editor text={this.state.submittedEntries[i].text}
+                <Entry text={this.state.submittedEntries[i].text}
                         timestamp={this.state.submittedEntries[i].timestamp}
                         isLocked={true}
                         key={i + this.state.entries.length} />
@@ -115,17 +115,10 @@ let Editor = React.createClass({
     _EDITABLE_SELECTOR: '.jl-editor[contenteditable=true]',
 
     getInitialState() {
-        return {
-            // TODO: I shouldn't have to be making such a complicated check.
-            contentEditable: !(this.props.isLocked.toString().toLowerCase() === 'true'),
-            content: '',
-        };
+        return {};
     },
 
     componentDidMount() {
-        if (!this.state.contentEditable) {
-            return;
-        }
         $(this._EDITABLE_SELECTOR).on('keydown', e => {
             if (e.which === ENTER_KEY) {
                 let content = $(this._EDITABLE_SELECTOR).text();
@@ -135,48 +128,14 @@ let Editor = React.createClass({
     },
 
     render() {
-        const contentEditable = this.state.contentEditable;
-        let classesList = [];
-
-        if (!contentEditable) {
-            classesList.push('jl-locked');
-        }
-
-        let entryFooter = null;
-        if (!contentEditable) {
-            let formattedTimestamp = formatTimestamp(this.props.timestamp);
-            let active = this.state.hover ? 'jl-entry-footer-active' : '';
-            entryFooter = <div className={'jl-entry-footer ' + active}>
-                {formattedTimestamp}
-            </div>;
-        }
-        let classes = Array.prototype.join.call(classesList, ' ');
         return (
-            <div className={'jl-editor ' + classes}
-                 onMouseOver={this._onMouseOver}
-                 onMouseLeave={this._onMouseLeave}
-                 contentEditable={contentEditable}
+            <div className={'jl-editor'}
+                 contentEditable='true'
                  data-ph={this._PLACEHOLDER}>
                 {contentEditable ? '' : this.props.text}
-                {entryFooter}
             </div>
         );
     },
-
-    _onMouseOver() {
-        if (this.state.contentEditable) {
-            return;
-        }
-        this.setState({hover: true});
-    },
-
-    _onMouseLeave() {
-        if (this.state.contentEditable) {
-            return;
-        }
-        this.setState({hover: false});
-    },
-
 
     _postEntry(e, content) {
         e.preventDefault();
@@ -189,10 +148,49 @@ let Editor = React.createClass({
             $(this._EDITABLE_SELECTOR).empty();
             this.props.onSubmit({
                 text: content,
-                timestamp: Date.now() / 1000
+                timestamp: Date.now() / 1000 // Need seconds, not milliseconds.
             });
         });
     }
+
+});
+
+
+let Entry = React.createClass({
+
+    getInitialState() {
+        return {};
+    },
+
+    render() {
+        let classesList = ['jl-locked'];
+        let formattedTimestamp = formatTimestamp(this.props.timestamp);
+        let active = this.state.hover ? 'jl-entry-footer-active' : '';
+        let entryFooter = (
+            <div className={'jl-entry-footer ' + active}>
+                {formattedTimestamp}
+            </div>;
+        );
+
+        let classes = Array.prototype.join.call(classesList, ' ');
+        return (
+            <div className={'jl-editor ' + classes}
+                 onMouseOver={this._onMouseOver}
+                 onMouseLeave={this._onMouseLeave}
+                 data-ph={this._PLACEHOLDER}>
+                {contentEditable ? '' : this.props.text}
+                {entryFooter}
+            </div>
+        );
+    },
+
+    _onMouseOver() {
+        this.setState({hover: true});
+    },
+
+    _onMouseLeave() {
+        this.setState({hover: false});
+    },
 
 });
 

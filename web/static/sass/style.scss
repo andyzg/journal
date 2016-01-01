@@ -1,9 +1,8 @@
 @import 'editor';
 @import 'variables';
-// @import 'lib/pure.css';
 
 body {
-    background-color: #FAFAFA;
+    background-color: $light-background-color;
     font-family: $primary-font-family;
 
     .jl-container {
