@@ -58,6 +58,8 @@ let Content = React.createClass({
                 // TODO: Create object models for entries
                 this.setState({entries: entries}, () => {
                     this.props.onRender();
+                    let scrollable = $('.jl-entry-scrollable');
+                    $(scrollable).scrollTop(scrollable.get(0).scrollHeight);
                 });
             });
         } 
@@ -107,6 +109,8 @@ let Content = React.createClass({
         this.setState({
             submittedEntries: this.state.submittedEntries.concat([content])
         });
+        let scrollable = $('.jl-entry-scrollable');
+        $(scrollable).scrollTop(scrollable.get(0).scrollHeight);
     }
 });
 

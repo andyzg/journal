@@ -1,31 +1,36 @@
 @import 'editor';
 @import 'variables';
+@import 'lib/reset';
 
-body {
-    background-color: $light-background-color;
-    font-family: $primary-font-family;
+html {
+    overflow: hidden;
 
-    .jl-container {
-        padding: 50px;
+    body {
+        background-color: $light-background-color;
+        font-family: $primary-font-family;
 
-        .jl-header {
-            position: fixed;
-
-            .jl-logo {
-                width: 36px;
-            }
-        }
-
-        .jl-content {
-            font-family: $primary-font-family;
-            font-size: 16px;
-            margin: 0 auto 0 auto;
+        .jl-container {
             padding: 0;
-            width: 900px;
-        }
 
-        .jl-footer {
-            height: 0px 
+            .jl-header {
+                position: fixed;
+
+                .jl-logo {
+                    width: 36px;
+                }
+            }
+
+            .jl-content {
+                font-family: $primary-font-family;
+                font-size: 16px;
+                margin: 0 auto 0 auto;
+                padding: 0;
+                width: 900px;
+            }
+
+            .jl-footer {
+                height: 0px 
+            }
         }
     }
 }

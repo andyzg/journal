@@ -10,7 +10,6 @@ $trans-time: .2s;
     margin-bottom: 5px;
     outline: 0px solid transparent;
     padding: $padding;
-    padding-bottom: $padding - $entry-footer-height;
     position: relative;
     top: 0px;
     width: 100%;
@@ -25,9 +24,7 @@ $trans-time: .2s;
 .jl-editor {
     background-color: #FFF;
     border: 1px solid rgba(0, 0, 0, .1);
-    height: auto;
-    margin-top: 50px;
-    min-height: 100px;
+    height: 100px;
 }
 
 .jl-editor:focus {
@@ -36,6 +33,7 @@ $trans-time: .2s;
 
 .jl-locked {
     color: $ink-font;
+    padding-bottom: $padding - $entry-footer-height;
 }
 
 .jl-locked:hover {
