@@ -89,13 +89,15 @@ let Content = React.createClass({
 
         return (
             <div className='jl-content'>
-                <ReactCSSTransitionGroup transitionName='jl-entry-post'
-                                         transitionAppear={false}
-                                         transitionEnterTimeout={1} 
-                                         transitionLeaveTimeout={1000}
-                                         transitionAppearTimeout={0}>
-                    {entries}
-                </ReactCSSTransitionGroup>
+                <div className='jl-entry-scrollable'>
+                    <ReactCSSTransitionGroup transitionName='jl-entry-post'
+                                             transitionAppear={false}
+                                             transitionEnterTimeout={1} 
+                                             transitionLeaveTimeout={1000}
+                                             transitionAppearTimeout={0}>
+                        {entries}
+                    </ReactCSSTransitionGroup>
+                </div>
                 <Editor isLocked={false} onSubmit={this._onSubmit} />
             </div>
         );
@@ -129,10 +131,10 @@ let Editor = React.createClass({
 
     render() {
         return (
-            <div className={'jl-editor'}
+            <div className={'jl-text jl-editor'}
                  contentEditable='true'
                  data-ph={this._PLACEHOLDER}>
-                {contentEditable ? '' : this.props.text}
+                {''}
             </div>
         );
     },
@@ -169,16 +171,16 @@ let Entry = React.createClass({
         let entryFooter = (
             <div className={'jl-entry-footer ' + active}>
                 {formattedTimestamp}
-            </div>;
+            </div>
         );
 
         let classes = Array.prototype.join.call(classesList, ' ');
         return (
-            <div className={'jl-editor ' + classes}
+            <div className={'jl-text ' + classes}
                  onMouseOver={this._onMouseOver}
                  onMouseLeave={this._onMouseLeave}
                  data-ph={this._PLACEHOLDER}>
-                {contentEditable ? '' : this.props.text}
+                {this.props.text}
                 {entryFooter}
             </div>
         );

@@ -5,7 +5,7 @@ $padding: 20px;
 $entry-footer-height: 16px;
 $trans-time: .2s;
 
-.jl-editor {
+.jl-text {
     height: auto;
     margin-bottom: 5px;
     outline: 0px solid transparent;
@@ -22,7 +22,7 @@ $trans-time: .2s;
     content:attr(data-ph)
 }
 
-.jl-editor[contentEditable=true] {
+.jl-editor {
     background-color: #FFF;
     border: 1px solid rgba(0, 0, 0, .1);
     height: auto;
@@ -30,7 +30,7 @@ $trans-time: .2s;
     min-height: 100px;
 }
 
-.jl-editor[contentEditable=true]:focus {
+.jl-editor:focus {
     box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
 }
 
@@ -65,4 +65,10 @@ $trans-time: .2s;
 .jl-entry-footer-active {
     font-size: 12px;
     opacity: 1;
+}
+
+// Entry scrollable box
+.jl-entry-scrollable {
+    height: 450px;
+    overflow: scroll;
 }
